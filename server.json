@@ -3,7 +3,7 @@
   "name": "io.github.pipeworx-io/oqmd",
   "title": "Oqmd",
   "description": "OQMD (Open Quantum Materials Database) MCP.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "websiteUrl": "https://pipeworx.io/packs/oqmd",
   "repository": {
     "url": "https://github.com/pipeworx-io/mcp-oqmd",
