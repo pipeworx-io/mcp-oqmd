@@ -1,0 +1,67 @@
+[
+  {
+    "name": "search_materials",
+    "description": "Search the Open Quantum Materials Database for DFT-computed inorganic materials by composition and/or constituent elements, with optional band-gap and thermodynamic-stability filters. Returns formation energy (eV/atom), energy above the convex hull (stability), band gap, space group, and prototype. Keyless. Provide at least `composition` or `element_set`.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "composition": {
+          "type": "string",
+          "description": "Exact composition, e.g. \"Fe2O3\", \"LiCoO2\". Matched as an exact stoichiometry."
+        },
+        "element_set": {
+          "type": "string",
+          "description": "Constituent elements the material must contain. Use OQMD set syntax: \"(Al-O)\" = contains Al or O; \"(Fe-O),Ni\" = (Fe or O) and Ni. A plain comma list like \"Fe,O\" is also accepted."
+        },
+        "band_gap_min": {
+          "type": "number",
+          "description": "Minimum band gap in eV (exclusive). e.g. 0.5 to find semiconductors/insulators."
+        },
+        "max_stability": {
+          "type": "number",
+          "description": "Maximum energy above the convex hull in eV/atom (exclusive). 0 = exactly on the hull (thermodynamically stable / ground state). e.g. 0.05 keeps near-stable phases."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max results, default 10, max 25."
+        }
+      }
+    }
+  },
+  {
+    "name": "get_material",
+    "description": "Fetch a single OQMD material by its entry_id (e.g. 16525 = the Pbcn polymorph of Fe2O3). Returns formation energy (eV/atom), stability above hull, band gap, space group, prototype, cell volume, atom/element counts, ICSD id, and generic composition. Keyless.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "entry_id": {
+          "type": "number",
+          "description": "OQMD entry_id, e.g. 16525 (Fe2O3, Pbcn). Get ids from search_materials results."
+        }
+      },
+      "required": [
+        "entry_id"
+      ]
+    }
+  },
+  {
+    "name": "stable_phases",
+    "description": "List the ground-state (on-hull) phases of a chemical system — the thermodynamically stable compounds in OQMD for a given set of elements. e.g. \"Fe-O\" returns FeO, Fe2O3, Fe3O4. Restricts to materials made ONLY of the given elements with stability <= ~0 (on the convex hull). Keyless.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "string",
+          "description": "A chemical system as dash- or comma-separated elements, e.g. \"Fe-O\", \"Li-Fe-O\", \"Al,O\"."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max phases, default 15, max 30."
+        }
+      },
+      "required": [
+        "elements"
+      ]
+    }
+  }
+]
